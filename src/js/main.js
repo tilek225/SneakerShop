@@ -10,11 +10,13 @@ let swiper = new Swiper(".mySwiper", {
 
 document.addEventListener('DOMContentLoaded', function (e) {
     let row = document.querySelector('.main__row');
+    let formSearch = document.querySelector('.form__search')
 
-    fetch('http://localhost:8080/sneakers')
-        .then(res => res.json())
-        .then(data => data.forEach(item => {
-            row.innerHTML += `
+    const getAll = (title = '') => {
+        fetch(`http://localhost:8080/sneakers?title_like=${title}`)
+            .then(res => res.json())
+            .then(data => data.forEach(item => {
+                row.innerHTML += `
                 <div class="main__card">
                     <button type="button" class="main__card-favorites">
                     ❤	
@@ -34,5 +36,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     </div>
                 </div>
             `
-        }))
+            }))
+    }
+
+    formSearch.addEventListener('submit', (e) => {
+        e.preventDefault();
+        row.innerHTML = '';
+        getAll(e.target[0].value)
+    })
+
+    getAll();
 })
