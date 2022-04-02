@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
             .then(data => data.forEach(item => {
                 row.innerHTML += `
                 <div class="main__card">
-                    <button type="button" class="main__card-favorites">
+                    <button type="button" class="main__card-favorites" data-id="${item.id}" data-title="${item.title}" data-url="${item.imageUrl}" data-price="${item.price}">
                     ❤	
                     </button>
                     <img class="main__card-img" src="${item.imageUrl}" alt="${item.title}">
@@ -36,6 +36,31 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     </div>
                 </div>
             `
+                let btns = document.querySelectorAll('.main__card-favorites');
+                btns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        if (btn.className.includes('acitve')) {
+                            fetch(`http://localhost:8080/favorites/${btn.dataset.id}`, {
+                                method: 'DELETE'
+                            }).then(() => console.log('Успешно удален'))
+                        } else {
+                            fetch(`http://localhost:8080/favorites`, {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    id: btn.dataset.id,
+                                    title: btn.dataset.title,
+                                    price: btn.dataset.price,
+                                    imageUrl: btn.dataset.url
+                                })
+                            }).then(() => console.log('Успешно добавлен'))
+                        }
+                        btn.classList.toggle('active')
+                    })
+                })
             }))
     }
 
@@ -46,4 +71,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
     })
 
     getAll();
+
+
 })

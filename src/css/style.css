@@ -209,6 +209,25 @@ color: #000000;
     color:#A5D364;
     font-size: 15px;
 }
+.main__card-favorites.active{
+    color:tomato;
+}
+.favorites__header{
+    display: flex;
+    column-gap: 30px;
+    align-items: center;
+}
+.favorites__link{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
 
 @media (max-width:768px){
     
